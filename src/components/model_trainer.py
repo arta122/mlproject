@@ -40,8 +40,18 @@ class ModelTrainer:
                 'xgboost regression': XGBRegressor(),
                 'catboost regressor': CatBoostRegressor(verbose=False)
             }
+            params = {
+            'knn': {'n_neighbors': [3, 5, 7]},
+            'gradient': {'n_estimators': [100, 200], 'learning_rate': [0.1, 0.05]},
+            'linear regression': {},
+            'random forest': {'n_estimators': [100, 200], 'max_depth': [None, 10, 20]},
+            'ada boost regressor': {'n_estimators': [50, 100], 'learning_rate': [0.01, 0.1, 1]},
+            'decision tree': {'max_depth': [None, 10, 20]},
+            'xgboost regression': {'n_estimators': [100, 200], 'learning_rate': [0.05, 0.1]},
+            'catboost regressor': {'depth': [6, 10], 'learning_rate': [0.03, 0.1], 'iterations': [100, 200]}
+        }
 
-            model_report: dict = evaluate_model(x_train=x_train, y_train=y_train, x_test=x_test, y_test=y_test, models=models)
+            model_report: dict = evaluate_model(x_train=x_train, y_train=y_train, x_test=x_test, y_test=y_test, models=models,param =params)
             best_model_score = max(model_report.values())
 
             best_model_name = list(model_report.keys())[list(model_report.values()).index(best_model_score)]
